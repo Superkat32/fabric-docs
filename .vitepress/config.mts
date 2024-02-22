@@ -3,22 +3,27 @@ import { PageData, TransformPageContext } from 'vitepress'
 import defineVersionedConfig from 'vitepress-versioning-plugin'
 import snippetPlugin from 'markdown-it-vuepress-code-snippet-enhanced'
 
-import RootSidebar from './sidebars/root'
 import PlayersSidebar from './sidebars/players'
+import DevelopSidebar from "./sidebars/develop"
 
 import { applySEO } from './seo'
 import { removeVersionedItems } from "./seo"
+import { loadLocales, generateTranslatedSidebars } from './i18n'
 
 // https://vitepress.dev/reference/site-config
 // https://www.npmjs.com/package/vitepress-versioning-plugin
 export default defineVersionedConfig(__dirname, {
   versioning: {
-    latestVersion: '1.20.4'
+    latestVersion: '1.20.4',
+    rewrites: {
+      localePrefix: 'translated'
+    }
   },
 
   rewrites: {
     // Ensures that it's `/contributing` instead of `/CONTRIBUTING`.
-    'CONTRIBUTING.md': 'contributing.md',
+    '(.*)CONTRIBUTING.md': '(.*)contributing.md',
+    'translated/:lang/(.*)': ':lang/(.*)'
   },
 
   title: "Fabric Documentation",
@@ -29,19 +34,33 @@ export default defineVersionedConfig(__dirname, {
     ['link', { rel: 'icon', sizes: '32x32', href: '/favicon.png' }],
   ],
 
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en'
+    },
+
+    ...loadLocales(__dirname)
+  },
+
+  // Prevent dead links from being reported as errors - allows partially translated pages to be built.
+  ignoreDeadLinks: true,
+
   srcExclude: [
     "README.md",
     "LICENSE.md",
   ],
 
   transformPageData(pageData: PageData, ctx: TransformPageContext) {
-    applySEO(pageData)
+    applySEO(pageData);
   },
 
   sitemap: {
     hostname: "https://docs.fabricmc.net/",
     transformItems: items => removeVersionedItems(items)
   },
+
+  lastUpdated: true,
 
   markdown: {
     lineNumbers: true,
@@ -77,9 +96,16 @@ export default defineVersionedConfig(__dirname, {
 
     outline: "deep",
 
-    sidebar: {
-      '/': RootSidebar,
-      '/players/': PlayersSidebar
+    sidebar: generateTranslatedSidebars(__dirname, {
+      '/players/': PlayersSidebar,
+      '/develop/': DevelopSidebar,
+    }),
+
+    editLink: {
+      pattern: ({ filePath }) => {
+        return `https://github.com/FabricMC/fabric-docs/edit/main/${filePath}`
+      },
+      text: 'Edit this page on GitHub'
     },
 
     socialLinks: [

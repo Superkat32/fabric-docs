@@ -1,6 +1,8 @@
 ---
 title: Installing Java on Linux
 description: A step by step guide on how to install Java on Linux.
+authors:
+  - IMB11
 ---
 
 # Installing Java on Linux
@@ -8,8 +10,6 @@ description: A step by step guide on how to install Java on Linux.
 This guide will walk you through installing Java 17 on Linux.
 
 ## 1. Verify if Java is already installed.
-
-Open a terminal and type `java -version` and press <kbd>Enter</kbd>.
 
 Open a terminal, type `java -version`, and press <kbd>Enter</kbd>.
 
