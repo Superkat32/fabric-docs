@@ -21,7 +21,7 @@ public class ExampleModClient implements ClientModInitializer {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 
 		// #region particle_register_client
-		// For this example, we will use the end rod particle behaviour.
+		// For this example, we use the end rod particle's logic via EndRodParticle.Provider::new
 		ParticleProviderRegistry.getInstance().register(ExampleMod.SPARKLE_PARTICLE, EndRodParticle.Provider::new);
 		// #endregion particle_register_client
 

@@ -32,7 +32,7 @@ public class ExampleMod implements ModInitializer {
 
 	// #endregion entrypoint
 	// #region particle_register_main
-	// This DefaultParticleType gets called when you want to use your particle in code.
+	// This is your ParticleType, you'll use it any time you want to spawn your particle in code
 	public static final SimpleParticleType SPARKLE_PARTICLE = FabricParticleTypes.simple();
 
 	// #endregion particle_register_main
@@ -52,9 +52,10 @@ public class ExampleMod implements ModInitializer {
 		// #endregion id_helper_usage
 
 		// #region particle_register_main
-		// Register our custom particle type in the mod initializer.
+		// Register your ParticleType in onInitialize() in your mod's initializer
 		Registry.register(BuiltInRegistries.PARTICLE_TYPE, ExampleMod.id("sparkle_particle"), SPARKLE_PARTICLE);
 		// #endregion particle_register_main
+
 		// #region datagen_world_biome_modifications
 		// Spawns everywhere in the overworld
 		BiomeModifications.addFeature(
