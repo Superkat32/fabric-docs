@@ -14,7 +14,7 @@ Particles are made up of 5 main components, as listed below. We'll look at each 
 - **Particle Class** - Handles the logic behind a particle, including its movement, lifetime (time before despawning), scale, and more.
 - **ParticleProvider** - Tells your ParticleType which Particle Class to use.
 - **Sprite Set JSON** - The JSON file that points to all the textures a particle should use.
-- **Textures** - The textures that the Sprite Set JSON to point towards.
+- **Textures** - The textures that the Sprite Set JSON points towards.
 
 ## Particle Type Registration {#particle-type-registration}
 For this example, we'll be adding a new sparkle particle that mimics the logic of an end rod particle.
@@ -47,10 +47,10 @@ You can see all the Particle Providers by looking at all the implementations of 
 ## Sprite Set JSON & Textures {#sprite-set-json-and-textures}
 After the registrations, you will need to create 2 folders in your `resources/assets/<mod_id>/` folder.
 
-| Folder Path                                                                                 | Explanation                                                                                     |
-|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| `/textures/particle`                                                                        | The `particle` folder will contain all the textures for all of your particles.                  |
-| `/particles`                                                                                | The `particles` folder will contain all of the Sprite Set JSON files for all of your particles. |
+| Folder Path          | Explanation                                                                                  |
+|----------------------|----------------------------------------------------------------------------------------------|
+| `/textures/particle` | The `particle` folder will contain all the textures for all of your particles.               |
+| `/particles`         | The `particles` folder will contain all the Sprite Set JSON files for all of your particles. |
 
 Add any textures you want for your particle to your `/textures/particle` folder. Textures are normally 16x16 pixels, but Vanilla sometimes uses 8x8 pixels (e.g. water splash particles) and 32x32 pixels (e.g. sonic boom particle).
 
@@ -77,9 +77,9 @@ You can use Vanilla textures too, just add `minecraft:<vanilla_texture_file_name
 
 For this example, our chosen `EndRodParticle` Particle Class will animate our particle based on that `textures` array. Each texture will be evenly spaced out throughout our particle's lifetime in the order we list them. You can repeat path entries to give it extra time if desired.
 :::details
-Unlike normal texture animations which use a `.mcmeta` file, most Particle Classes will animate particles based on their `textures` array. Each texture is evenly spaced throughout the particle's lifetime, so if a particle has 10 textures and exists for 20 ticks, then each texture will be shown for 2 ticks.
+Unlike normal texture animations, which use a `.mcmeta` file, most Particle Classes will animate particles based on their `textures` array. Each texture is evenly spaced throughout the particle's lifetime, so if a particle has 10 textures and exists for 20 ticks, then each texture will be shown for 2 ticks.
 
-However, some Particle Classes don't animate particles, instead they choose a single random texture from their `textures` array which lasts the particle's entire lifetime. Notable examples include the `CritParticle` and `FlameParticle` classes (technically, the textures are randomly chosen from their ParticleProviders in these cases).
+However, some Particle Classes don't animate particles, instead they choose a single random texture from their `textures` array, which lasts the particle's entire lifetime. Notable examples include the `CritParticle` and `FlameParticle` classes (technically, the textures are randomly chosen from their ParticleProviders in these cases).
 
 If you're unsure how a Particle Class handles texture animations, check if the `setSpriteFromAge()` method is called in the `tick()` method. If it is, then it'll animate the particle throughout its lifetime. If it isn't, then it's likely that a random texture or the first texture is the only texture used.
 
@@ -108,7 +108,7 @@ If you type it in chat, the particle will spawn inside the player, and you'll li
 ## Spawning Particles in Code {#spawning-particles-in-code}
 What good is a particle if you can't spawn it from code?
 
-There's two ways to spawn a particle depending on your [networking context](../../networking). Most commonly, though, you'll be adding particles from the client side.
+There are two ways to spawn a particle depending on your [networking context](../../networking). Most commonly, though, you'll be adding particles from the client side.
 
 You'll use your ParticleType object for both sides, as it's the only component of particles that are available on both the server and client. Particle Classes (and any spawned particles) are client side only.
 
