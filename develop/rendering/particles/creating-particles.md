@@ -8,6 +8,7 @@ authors:
 Particles are a powerful tool. They can add ambience to a beautiful scene, or add tension to an edge of your seat boss battle. Let's add one!
 
 ## Quick Overview {#quick-overview}
+
 Particles are made up of 5 main components, as listed below. We'll look at each one in a moment, but here's a quick overview.
 
 - **ParticleType** - The main Registry entry for your particle, mostly used when adding your particle to the world.
@@ -17,6 +18,7 @@ Particles are made up of 5 main components, as listed below. We'll look at each 
 - **Textures** - The textures that the Sprite Set JSON points towards.
 
 ## Particle Type Registration {#particle-type-registration}
+
 For this example, we'll be adding a new sparkle particle that mimics the logic of an end rod particle.
 
 To begin, register a `ParticleType` in your [mod's initializer](../../getting-started/project-structure#entrypoints). This object will be used every time you want to spawn a particle via code, and once more in the ParticleProvider registration.
@@ -45,6 +47,7 @@ You can see all the Particle Providers by looking at all the implementations of 
 :::
 
 ## Sprite Set JSON & Textures {#sprite-set-json-and-textures}
+
 After the registrations, you will need to create 2 folders in your `resources/assets/<mod_id>/` folder.
 
 | Folder Path          | Explanation                                                                                  |
@@ -57,7 +60,6 @@ Add any textures you want for your particle to your `/textures/particle` folder.
 For this example, we have 6 sparkle textures named `sparkle_1` through `sparkle_6`. The `EndRodParticle` class will animate our particle for us based on these textures.
 <DownloadEntry visualURL="/assets/develop/rendering/particles/sparkle_textures_big.png" downloadURL="/assets/develop/rendering/particles/sparkle_particle_textures.zip">Particle Textures</DownloadEntry>
 
-
 Next, create a new JSON file in the `/particles` folder with the same name as the Identifier path from your ParticleType registration (in this example, "sparkle_particle"). This is your Sprite Set JSON, add the paths to the textures you want your particle to use.
 
 :::tabs
@@ -66,6 +68,7 @@ Next, create a new JSON file in the `/particles` folder with the same name as th
 
 You can use Vanilla textures too, just add `minecraft:<vanilla_texture_file_name>` as a texture path to the `textures` array.
 == Template
+
 ```json
 {
   "textures": [
@@ -73,6 +76,7 @@ You can use Vanilla textures too, just add `minecraft:<vanilla_texture_file_name
   ]
 }
 ```
+
 :::
 
 For this example, our chosen `EndRodParticle` Particle Class will animate our particle based on that `textures` array. Each texture will be evenly spaced out throughout our particle's lifetime in the order we list them. You can repeat path entries to give it extra time if desired.
@@ -87,6 +91,7 @@ Note: You can technically still use a `.mcmeta` file for animations, but it'll a
 :::
 
 ## Testing the New Particle {#testing-the-new-particle}
+
 Once you've completed your Sprite Set JSON and added the textures you want, it's time to load up Minecraft and test out the particle!
 
 You can test your particle by using the `/particle` command with your mod id and your particle's Identifier path:
@@ -106,6 +111,7 @@ If you type it in chat, the particle will spawn inside the player, and you'll li
 :::
 
 ## Spawning Particles in Code {#spawning-particles-in-code}
+
 What good is a particle if you can't spawn it from code?
 
 There are two ways to spawn a particle depending on your [networking context](../../networking). Most commonly, though, you'll be adding particles from the client side.

@@ -1,9 +1,9 @@
 package com.example.docs.particle;
 
+import net.minecraft.client.particle.EndRodParticle;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
-
-import net.minecraft.client.particle.EndRodParticle;
 
 // #region entrypoint
 public class ExampleModParticlesClient implements ClientModInitializer {

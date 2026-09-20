@@ -27,7 +27,6 @@ public class ExampleMod implements ModInitializer {
 	// #endregion create_logger
 	// #endregion entrypoint
 
-
 	// #region entrypoint
 	@Override
 	public void onInitialize() {
