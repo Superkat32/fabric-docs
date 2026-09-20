@@ -110,13 +110,13 @@ What good is a particle if you can't spawn it from code?
 
 There's two ways to spawn a particle depending on your [networking context](../../networking). Most commonly, though, you'll be adding particles from the client side.
 
+You'll use your ParticleType object for both sides, as it's the only component of particles that are available on both the server and client. Particle Classes (and any spawned particles) are client side only.
+
 :::tabs
 ==Client Side
 `ClientLevel#addParticle()` will add a particle on that client's world.
 
 <<< @/reference/latest/src/main/java/com/example/docs/particle/ExampleModParticles.java#client_send_particles
-
-If you're working with particles for blocks, Vanilla's `ParticleUtils` class might be helpful. It includes methods for spawning particles around block faces and around blocks in general.
 
 ==Server Side
 `ServerLevel#sendParticles()` will send a packet telling clients to add particles to their worlds.
@@ -125,16 +125,10 @@ If you're working with particles for blocks, Vanilla's `ParticleUtils` class mig
 
 This method's parameters are different from its client sided counterpart, being more tuned towards spawning multiple particles with position & velocity variations (like the fishing rod's water particles).
 
-Sometimes you may find it easier to create a [custom packet](../../networking#an-introduction-to-networking) that you only need to call once to spawn multiple particles at the same time.
-
-The client's `addParticle()` method is usually easier to work with, and reducing the number of sent packets from multiple particle packets to a single custom packet never hurts.
-
-Vanilla chooses to do this with various block and item interactions, such as the block destroying particles and bonemeal usage particles.
+Note that calling `addParticle()` on the `ServerLevel` will not do anything.
 
 :::
 
 ::: tip
 You can also spawn Vanilla particles by using a ParticleType from the `ParticleTypes` class!
 :::
-
-Note that ParticleType objects are available on both the server and client, but Particle Classes (and any spawned particles) are fully client side.
