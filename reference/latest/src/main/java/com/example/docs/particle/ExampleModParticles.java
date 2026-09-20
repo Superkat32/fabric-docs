@@ -1,22 +1,17 @@
 package com.example.docs.particle;
 
-import net.fabricmc.fabric.api.event.player.BlockEvents;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Items;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.player.BlockEvents;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 
 import com.example.docs.ExampleMod;
-
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.phys.Vec3;
 
 // #region entrypoint
 public class ExampleModParticles implements ModInitializer {
