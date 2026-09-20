@@ -8,18 +8,18 @@ authors:
 Particles are a powerful tool. They can add ambience to a beautiful scene, or add tension to an edge of your seat boss battle. Let's add one!
 
 ## Quick Overview {#quick-overview}
-Particles require 5 main components, as listed below. We'll look at each one in a moment, but here's a quick overview.
+Particles are made up of 5 main components, as listed below. We'll look at each one in a moment, but here's a quick overview.
 
 - **ParticleType** - The main Registry entry for your particle, mostly used when adding your particle to the world.
 - **Particle Class** - Handles the logic behind a particle, including its movement, lifetime (time before despawning), scale, and more.
 - **ParticleProvider** - Tells your ParticleType which Particle Class to use.
-- **Sprite Set JSON** - The JSON file that points to all the textures to be used.
+- **Sprite Set JSON** - The JSON file that points to all the textures a particle should use.
 - **Textures** - The textures that the Sprite Set JSON to point towards.
 
 ## Particle Type Registration {#particle-type-registration}
 For this example, we'll be adding a new sparkle particle that mimics the logic of an end rod particle.
 
-To begin, we need to register a `ParticleType` in your [mod's initializer](../../getting-started/project-structure#entrypoints). This object will be used every time you want to spawn a particle via code, and once more in the ParticleProvider registration.
+To begin, register a `ParticleType` in your [mod's initializer](../../getting-started/project-structure#entrypoints). This object will be used every time you want to spawn a particle via code, and once more in the ParticleProvider registration.
 
 <<< @/reference/latest/src/main/java/com/example/docs/ExampleMod.java#particle_register_main
 
@@ -29,9 +29,9 @@ The "sparkle_particle" path of the Identifier is for the Sprite Set JSON file th
 
 Next, we need to register a ParticleProvider in your [mod's client initializer](../../getting-started/project-structure#entrypoints).
 
-The ParticleProvider tells your ParticleType which Particle Class to use. The Particle Class handles everything about a particle's logic, including its movement, lifetime (time before despawning), scale, and more.
+The ParticleProvider tells your earlier ParticleType which Particle Class to use. The Particle Class handles everything about a particle's logic, including its movement, lifetime (time before despawning), scale, and more.
 
-For this example, we want to mimic the end rod particle's logic, which we initialize via the `EndRodParticle.Provider::new` lambda. Most commonly, the ParticleProvider is a static class within the associated Particle Class file.
+For this example, we want to mimic the end rod particle's logic, so we'll use its ParticleProvider via the `EndRodParticle.Provider::new` lambda statement. Most commonly, the ParticleProvider is a static class within the associated Particle Class file.
 
 <<< @/reference/latest/src/client/java/com/example/docs/ExampleModClient.java#particle_register_client
 
@@ -52,15 +52,19 @@ After the registrations, you will need to create 2 folders in your `resources/as
 | `/textures/particle`                                                                        | The `particle` folder will contain all the textures for all of your particles.                  |
 | `/particles`                                                                                | The `particles` folder will contain all of the Sprite Set JSON files for all of your particles. |
 
-Add any textures you want to for your particle to your `/textures/particle` folder.
+Add any textures you want for your particle to your `/textures/particle` folder. Textures are normally 16x16 pixels, but Vanilla sometimes uses 8x8 pixels (e.g. water splash particles) and 32x32 pixels (e.g. sonic boom particle).
 
 For this example, we have 6 sparkle textures named `sparkle_1` through `sparkle_6`. The `EndRodParticle` class will animate our particle for us based on these textures.
+<DownloadEntry visualURL="/assets/develop/rendering/particles/sparkle_textures_big.png" downloadURL="/assets/develop/rendering/particles/sparkle_particle_textures.zip">Particle Textures</DownloadEntry>
 
-Next, create a new JSON file in the `/particles` folder with the same name as the Identifier path from your ParticleType registration (in this example, "sparkle_particle"). This is your Sprite Set JSON, and inside it will contain the paths to the textures you want to use for your particle.
+
+Next, create a new JSON file in the `/particles` folder with the same name as the Identifier path from your ParticleType registration (in this example, "sparkle_particle"). This is your Sprite Set JSON, add the paths to the textures you want your particle to use.
 
 :::tabs
 == Sparkle Example
 <<< @/reference/latest/src/main/resources/assets/example-mod/particles/sparkle_particle.json
+
+You can use Vanilla textures too, just add `minecraft:<vanilla_texture_file_name>` as a texture path to the `textures` array.
 == Template
 ```json
 {
@@ -71,14 +75,19 @@ Next, create a new JSON file in the `/particles` folder with the same name as th
 ```
 :::
 
-Most Vanilla Particle Classes will animate the particle based on that `textures` array, with each texture evenly spaced throughout the particle's lifetime. For example, if a particle has 10 textures and exists for 20 ticks, then each texture will be shown for 2 ticks.
+For this example, our chosen `EndRodParticle` Particle Class will animate our particle based on that `textures` array. Each texture will be evenly spaced out throughout our particle's lifetime in the order we list them. You can repeat path entries to give it extra time if desired.
+:::details
+Unlike normal texture animations which use a `.mcmeta` file, most Particle Classes will animate particles based on their `textures` array. Each texture is evenly spaced throughout the particle's lifetime, so if a particle has 10 textures and exists for 20 ticks, then each texture will be shown for 2 ticks.
 
-However, some Particle Classes don't do that, instead they choose a single random texture from the `textures` array which lasts the particle's full lifetime. Notable examples include `CritParticle` and `FlameParticle` classes (technically, the textures are randomly chosen from the ParticleProviders in these cases).
+However, some Particle Classes don't animate particles, instead they choose a single random texture from their `textures` array which lasts the particle's entire lifetime. Notable examples include the `CritParticle` and `FlameParticle` classes (technically, the textures are randomly chosen from their ParticleProviders in these cases).
 
-For this example, though, our chosen `EndRodParticle` class will animate our particle based on our textures.
+If you're unsure how a Particle Class handles texture animations, check if the `setSpriteFromAge()` method is called in the `tick()` method. If it is, then it'll animate the particle throughout its lifetime. If it isn't, then it's likely that a random texture or the first texture is the only texture used.
+
+Note: You can technically still use a `.mcmeta` file for animations, but it'll act different than you expect. Instead of each particle getting its own animation based on its lifetime, each particle will use the same frame at the same time (just like block and item texture animations). The only Vanilla particle that does this is the sculk vibration particle.
+:::
 
 ## Testing the New Particle {#testing-the-new-particle}
-Once you've completed your Sprite Set JSON, it's time to load up Minecraft and test out the particle!
+Once you've completed your Sprite Set JSON and added the textures you want, it's time to load up Minecraft and test out the particle!
 
 You can test your particle by using the `/particle` command with your mod id and your particle's Identifier path:
 
@@ -86,7 +95,7 @@ You can test your particle by using the `/particle` command with your mod id and
 /particle example-mod:sparkle_particle ~ ~1 ~
 ```
 
-![Showcase of the particle](/assets/develop/rendering/particles/sparkle-particle-showcase.png)
+<VideoPlayer src="/assets/develop/rendering/particles/sparkle-particle-video-showcase.mp4">Finished Sparkle Particle Example</VideoPlayer>
 
 ::: info
 
@@ -96,24 +105,34 @@ If you type it in chat, the particle will spawn inside the player, and you'll li
 
 :::
 
-## Using the Particle in Code {#using-the-particle-in-code}
+## Spawning the Particle in Code {#spawning-the-particle-in-code}
 What good is a particle if you can't spawn it from code?
 
-There's two ways to spawn a particle depending on your [networking context](../../networking). Most commonly, though, you'll be adding particles from the Client side.
+There's two ways to spawn a particle depending on your [networking context](../../networking). Most commonly, though, you'll be adding particles from the client side.
+
+Note that ParticleType objects are available on both the server and client, but Particle Classes (and any spawned particles) are fully client side.
 
 :::tabs
 ==Client Side
-`ClientLevel#addParticle()` will add a particle on that client's screen.
+`ClientLevel#addParticle()` will add a particle on that client's world.
 
 TODO - Client add particle example (also the formatting on the tab and tip here is weird code-wise)
 
 ::: tip
-If you're spawning particles for blocks, Vanilla's `ParticleUtil` class might be helpful. It includes methods for spawning particles around block faces and around blocks in general.
+If you're working with particles for blocks, Vanilla's `ParticleUtils` class might be helpful. It includes methods for spawning particles around block faces and around blocks in general.
 
 ==Server Side
-`ServerLevel#sendParticles()` will send a packet telling clients to add particles to their screens.
+`ServerLevel#sendParticles()` will send a packet telling clients to add particles to their worlds.
 
 TODO - Server add particle example
 
-This method's parameters are different from `ClientLevel#addParticle()`, being more tuned towards spawning multiple particles at once (like the Creaking's trail particles).
+This method's parameters are different from its client sided counterpart, being more tuned towards spawning multiple particles with position & velocity variations (like the fishing rod's water particles).
+
+::: tip
+Sometimes you may find it easier to create a [custom packet](../../networking#an-introduction-to-networking) that you only need to call once to spawn multiple particles at the same time.
+
+The client's `addParticle()` method is usually easier to work with, and reducing the number of sent packets from multiple particle packets to a single custom packet never hurts.
+
+Vanilla chooses to do this with various block and item interactions, such as the block destroying particles and bonemeal usage particles.
+
 :::
