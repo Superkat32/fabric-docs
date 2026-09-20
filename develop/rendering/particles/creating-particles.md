@@ -105,7 +105,7 @@ If you type it in chat, the particle will spawn inside the player, and you'll li
 
 :::
 
-## Spawning the Particle in Code {#spawning-the-particle-in-code}
+## Spawning Particles in Code {#spawning-particles-in-code}
 What good is a particle if you can't spawn it from code?
 
 There's two ways to spawn a particle depending on your [networking context](../../networking). Most commonly, though, you'll be adding particles from the client side.
