@@ -12,8 +12,6 @@ public class ExampleModParticlesClient implements ClientModInitializer {
 		// Registers a ParticleProvider for your ParticleType
 		// For this example, we use the end rod particle's logic via EndRodParticle.Provider::new
 		ParticleProviderRegistry.getInstance().register(ExampleModParticles.SPARKLE_PARTICLE, EndRodParticle.Provider::new);
-
-
 	}
 }
 // #endregion entrypoint
