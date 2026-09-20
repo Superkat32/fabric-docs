@@ -21,7 +21,7 @@ For this example, we'll be adding a new sparkle particle that mimics the logic o
 
 To begin, register a `ParticleType` in your [mod's initializer](../../getting-started/project-structure#entrypoints). This object will be used every time you want to spawn a particle via code, and once more in the ParticleProvider registration.
 
-<<< @/reference/latest/src/main/java/com/example/docs/ExampleMod.java#particle_register_main
+<<< @/reference/latest/src/main/java/com/example/docs/particle/ExampleModParticles.java#entrypoint
 
 The "sparkle_particle" path of the Identifier is for the Sprite Set JSON file that stores the particle's textures and when spawning the particle with commands. You will be creating a new JSON file with that exact name soon.
 
@@ -33,7 +33,7 @@ The ParticleProvider tells your earlier ParticleType which Particle Class to use
 
 For this example, we want to mimic the end rod particle's logic, so we'll use its ParticleProvider via the `EndRodParticle.Provider::new` lambda statement. Most commonly, the ParticleProvider is a static class within the associated Particle Class file.
 
-<<< @/reference/latest/src/client/java/com/example/docs/ExampleModClient.java#particle_register_client
+<<< @/reference/latest/src/client/java/com/example/docs/particle/ExampleModParticlesClient.java#entrypoint
 
 ::: tip
 
@@ -110,25 +110,21 @@ What good is a particle if you can't spawn it from code?
 
 There's two ways to spawn a particle depending on your [networking context](../../networking). Most commonly, though, you'll be adding particles from the client side.
 
-Note that ParticleType objects are available on both the server and client, but Particle Classes (and any spawned particles) are fully client side.
-
 :::tabs
 ==Client Side
 `ClientLevel#addParticle()` will add a particle on that client's world.
 
-TODO - Client add particle example (also the formatting on the tab and tip here is weird code-wise)
+<<< @/reference/latest/src/main/java/com/example/docs/particle/ExampleModParticles.java#client_send_particles
 
-::: tip
 If you're working with particles for blocks, Vanilla's `ParticleUtils` class might be helpful. It includes methods for spawning particles around block faces and around blocks in general.
 
 ==Server Side
 `ServerLevel#sendParticles()` will send a packet telling clients to add particles to their worlds.
 
-TODO - Server add particle example
+<<< @/reference/latest/src/main/java/com/example/docs/particle/ExampleModParticles.java#server_send_particles
 
 This method's parameters are different from its client sided counterpart, being more tuned towards spawning multiple particles with position & velocity variations (like the fishing rod's water particles).
 
-::: tip
 Sometimes you may find it easier to create a [custom packet](../../networking#an-introduction-to-networking) that you only need to call once to spawn multiple particles at the same time.
 
 The client's `addParticle()` method is usually easier to work with, and reducing the number of sent packets from multiple particle packets to a single custom packet never hurts.
@@ -136,3 +132,9 @@ The client's `addParticle()` method is usually easier to work with, and reducing
 Vanilla chooses to do this with various block and item interactions, such as the block destroying particles and bonemeal usage particles.
 
 :::
+
+::: tip
+You can also spawn Vanilla particles by using a ParticleType from the `ParticleTypes` class!
+:::
+
+Note that ParticleType objects are available on both the server and client, but Particle Classes (and any spawned particles) are fully client side.
