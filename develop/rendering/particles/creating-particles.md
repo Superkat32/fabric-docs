@@ -51,7 +51,7 @@ You can see all the Particle Providers by looking at all the implementations of 
 After the registrations, you will need to create 2 folders in your `resources/assets/<mod_id>/` folder.
 
 | Folder Path          | Explanation                                                                                  |
-|----------------------|----------------------------------------------------------------------------------------------|
+| -------------------- | -------------------------------------------------------------------------------------------- |
 | `/textures/particle` | The `particle` folder will contain all the textures for all of your particles.               |
 | `/particles`         | The `particles` folder will contain all the Sprite Set JSON files for all of your particles. |
 
@@ -62,11 +62,14 @@ For this example, we have 6 sparkle textures named `sparkle_1` through `sparkle_
 
 Next, create a new JSON file in the `/particles` folder with the same name as the Identifier path from your ParticleType registration (in this example, "sparkle_particle"). This is your Sprite Set JSON, add the paths to the textures you want your particle to use.
 
-:::tabs
+::: tabs
+
 == Sparkle Example
+
 <<< @/reference/latest/src/main/resources/assets/example-mod/particles/sparkle_particle.json
 
 You can use Vanilla textures too, just add `minecraft:<vanilla_texture_file_name>` as a texture path to the `textures` array.
+
 == Template
 
 ```json
@@ -80,7 +83,9 @@ You can use Vanilla textures too, just add `minecraft:<vanilla_texture_file_name
 :::
 
 For this example, our chosen `EndRodParticle` Particle Class will animate our particle based on that `textures` array. Each texture will be evenly spaced out throughout our particle's lifetime in the order we list them. You can repeat path entries to give it extra time if desired.
-:::details
+
+::: details
+
 Unlike normal texture animations, which use a `.mcmeta` file, most Particle Classes will animate particles based on their `textures` array. Each texture is evenly spaced throughout the particle's lifetime, so if a particle has 10 textures and exists for 20 ticks, then each texture will be shown for 2 ticks.
 
 However, some Particle Classes don't animate particles, instead they choose a single random texture from their `textures` array, which lasts the particle's entire lifetime. Notable examples include the `CritParticle` and `FlameParticle` classes (technically, the textures are randomly chosen from their ParticleProviders in these cases).
@@ -88,6 +93,7 @@ However, some Particle Classes don't animate particles, instead they choose a si
 If you're unsure how a Particle Class handles texture animations, check if the `setSpriteFromAge()` method is called in the `tick()` method. If it is, then it'll animate the particle throughout its lifetime. If it isn't, then it's likely that a random texture or the first texture is the only texture used.
 
 Note: You can technically still use a `.mcmeta` file for animations, but it'll act different than you expect. Instead of each particle getting its own animation based on its lifetime, each particle will use the same frame at the same time (just like block and item texture animations). The only Vanilla particle that does this is the sculk vibration particle.
+
 :::
 
 ## Testing the New Particle {#testing-the-new-particle}
@@ -118,13 +124,16 @@ There are two ways to spawn a particle depending on your [networking context](..
 
 You'll use your ParticleType object for both sides, as it's the only component of particles that are available on both the server and client. Particle Classes (and any spawned particles) are client side only.
 
-:::tabs
-==Client Side
+::: tabs
+
+== Client Side
+
 `ClientLevel#addParticle()` will add a particle on that client's world.
 
 <<< @/reference/latest/src/main/java/com/example/docs/particle/ExampleModParticles.java#client_send_particles
 
-==Server Side
+== Server Side
+
 `ServerLevel#sendParticles()` will send a packet telling clients to add particles to their worlds.
 
 <<< @/reference/latest/src/main/java/com/example/docs/particle/ExampleModParticles.java#server_send_particles
@@ -136,5 +145,7 @@ Note that calling `addParticle()` on the `ServerLevel` will not do anything.
 :::
 
 ::: tip
+
 You can also spawn Vanilla particles by using a ParticleType from the `ParticleTypes` class!
+
 :::
