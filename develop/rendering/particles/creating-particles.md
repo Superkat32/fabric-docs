@@ -72,10 +72,10 @@ You can use Vanilla textures too, just add `minecraft:<vanilla_texture_file_name
 
 == Template
 
-```json5
+```json
 {
   "textures": [
-    // Texture paths here
+    "mod_id:texture_name"
   ]
 }
 ```
