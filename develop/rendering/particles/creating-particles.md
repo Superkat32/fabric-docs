@@ -75,7 +75,7 @@ You can use Vanilla textures too, just add `minecraft:<vanilla_texture_file_name
 ```json
 {
   "textures": [
-
+    // Texture paths here
   ]
 }
 ```
@@ -149,3 +149,5 @@ Note that calling `addParticle()` on the `ServerLevel` will not do anything.
 You can also spawn Vanilla particles by using a ParticleType from the `ParticleTypes` class!
 
 :::
+
+<!---->
