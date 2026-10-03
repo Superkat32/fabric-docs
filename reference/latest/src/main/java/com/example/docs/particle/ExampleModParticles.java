@@ -14,10 +14,17 @@ import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import com.example.docs.ExampleMod;
 
 // #region entrypoint
+// #region custom_class
 public class ExampleModParticles implements ModInitializer {
+	// #endregion custom_class
 	// This is your ParticleType, you'll use it any time you want to spawn your particle in code
 	public static final SimpleParticleType SPARKLE_PARTICLE = FabricParticleTypes.simple();
 
+	// #endregion entrypoint
+	// #region custom_class
+	public static final SimpleParticleType SPARKLY_SPARKLE_PARTICLE = FabricParticleTypes.simple();
+
+	// #region entrypoint
 	@Override
 	public void onInitialize() {
 		// Registers your ParticleType with the Identifier path of "sparkle_particle"
