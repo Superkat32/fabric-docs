@@ -10,9 +10,11 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 
-public class SparkleParticle extends SingleQuadParticle {
+public class SparklySparkleParticle extends SingleQuadParticle {
 	public final SpriteSet sprites;
-	protected SparkleParticle(
+	public boolean animate = true;
+
+	protected SparklySparkleParticle(
 			ClientLevel level,
 			double x, double y, double z,
 			double xa, double ya, double za,
@@ -23,19 +25,26 @@ public class SparkleParticle extends SingleQuadParticle {
 		super(level, x, y, z, xa, ya, za, sprites.first());
 		this.sprites = sprites;
 
-		// Set the texture based on the particle's age (from here, it'll be the first texture)
-		this.setSpriteFromAge(this.sprites);
+		if (this.animate) {
+			// Set the texture based on the particle's age (from here, it'll be the first texture)
+			this.setSpriteFromAge(this.sprites);
+		} else {
+			this.setSprite(this.sprites.get(this.random));
+		}
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		this.setSpriteFromAge(this.sprites);
+		if (this.animate) {
+			this.setSpriteFromAge(this.sprites);
+		}
 	}
 
 	@Override
 	protected @NonNull Layer getLayer() {
 		// We're using Layer.OPAQUE because our particle's textures are not be semi-transparent
+		// Use Layer.TRANSLUCENT if your particle's texture has semi-transparent pixels
 		return Layer.OPAQUE;
 	}
 
@@ -48,7 +57,7 @@ public class SparkleParticle extends SingleQuadParticle {
 				double xAux, double yAux, double zAux,
 				@NonNull RandomSource random
 		) {
-			return new SparkleParticle(level, x, y, z, xAux, yAux, zAux, this.sprites);
+			return new SparklySparkleParticle(level, x, y, z, xAux, yAux, zAux, this.sprites);
 		}
 	}
 }

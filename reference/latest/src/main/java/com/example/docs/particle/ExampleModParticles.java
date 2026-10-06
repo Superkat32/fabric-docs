@@ -14,22 +14,30 @@ import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import com.example.docs.ExampleMod;
 
 // #region entrypoint
-// #region custom_class
+// #region particle_classes
 public class ExampleModParticles implements ModInitializer {
-	// #endregion custom_class
+	// #endregion particle_classes
 	// This is your ParticleType, you'll use it any time you want to spawn your particle in code
 	public static final SimpleParticleType SPARKLE_PARTICLE = FabricParticleTypes.simple();
 
 	// #endregion entrypoint
-	// #region custom_class
+	// #region particle_classes
 	public static final SimpleParticleType SPARKLY_SPARKLE_PARTICLE = FabricParticleTypes.simple();
 
+	// #endregion particle_classes
+
 	// #region entrypoint
+	// #region particle_classes
 	@Override
 	public void onInitialize() {
+		// #endregion particle_classes
 		// Registers your ParticleType with the Identifier path of "sparkle_particle"
 		Registry.register(BuiltInRegistries.PARTICLE_TYPE, ExampleMod.id("sparkle_particle"), ExampleModParticles.SPARKLE_PARTICLE);
 		// #endregion entrypoint
+
+		// #region particle_classes
+		Registry.register(BuiltInRegistries.PARTICLE_TYPE, ExampleMod.id("sparkly_sparkle_particle"), ExampleModParticles.SPARKLY_SPARKLE_PARTICLE);
+		// #endregion particle_classes
 
 		// An example of adding or sending particles after interacting with a block while holding a firework star
 		BlockEvents.USE_ITEM_ON.register((itemStack, blockState, level, blockPos, player, interactionHand, blockHitResult) -> {
@@ -73,6 +81,8 @@ public class ExampleModParticles implements ModInitializer {
 		});
 
 		// #region entrypoint
+		// #region particle_classes
 	}
 }
 // #endregion entrypoint
+// #endregion particle_classes
