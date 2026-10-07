@@ -4,7 +4,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Items;
 
 import net.fabricmc.api.ModInitializer;
@@ -62,7 +61,7 @@ public class ExampleModParticles implements ModInitializer {
 			}
 
 			// Don't actually change the result of the use item on event
-			return InteractionResult.PASS;
+			return null;
 		});
 
 		// #region entrypoint
