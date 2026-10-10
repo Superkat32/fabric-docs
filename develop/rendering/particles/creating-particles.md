@@ -47,7 +47,7 @@ For this example, we have 6 sparkle textures named `sparkle_1` through `sparkle_
 
 Next, all Sprite Set JSON files should be put in the `assets/<mod_id>/particles` folder _(notice the extra "s" in this folder's name!)_.
 
-In this folder, create a new JSON file with the same name as your particle's Identifier path from your ParticleType registration (e.g. "sparkle_particle.json"). Then, add the paths to the textures you want to use.
+In this folder, create a new JSON file with the same name as your particle's Identifier path from your ParticleType registration (e.g., "sparkle_particle.json"). Then, add the paths to the textures you want to use.
 
 ::: tabs
 
@@ -119,7 +119,7 @@ For both methods, you'll pass the ParticleType you want to spawn along with othe
 
 <<< @/reference/latest/src/main/java/com/example/docs/particle/ExampleModParticles.java#server_send_particles
 
-This method's parameters are more tuned towards spawning multiple particles with positional & velocity variations (e.g. the fishing rod's water particles).
+This method's parameters are more tuned towards spawning multiple particles with positional & velocity variations (e.g., the fishing rod's water particles).
 
 Note that calling `Level#addParticle()` on the `ServerLevel` will not do anything.
 
