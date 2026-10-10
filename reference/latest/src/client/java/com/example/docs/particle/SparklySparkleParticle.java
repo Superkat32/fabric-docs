@@ -20,12 +20,7 @@ public class SparklySparkleParticle extends SingleQuadParticle {
 	public int shrinkTicks = 0;
 	public float maxQuadSize = 0f;
 
-	protected SparklySparkleParticle(
-			ClientLevel level,
-			double x, double y, double z,
-			double xa, double ya, double za,
-			SpriteSet sprites
-	) {
+	protected SparklySparkleParticle(ClientLevel level, double x, double y, double z, double xa, double ya, double za, SpriteSet sprites) {
 		// Even though we change the texture shortly after, we need to
 		// use sprites.first() in the super constructor as a fallback texture
 		super(level, x, y, z, xa, ya, za, sprites.first());
@@ -84,15 +79,9 @@ public class SparklySparkleParticle extends SingleQuadParticle {
 		return Layer.OPAQUE;
 	}
 
-	public static record Provider(SpriteSet sprites) implements ParticleProvider<SimpleParticleType> {
+	public record Provider(SpriteSet sprites) implements ParticleProvider<SimpleParticleType> {
 		@Override
-		public @NonNull Particle createParticle(
-				SimpleParticleType options,
-				@NonNull ClientLevel level,
-				double x, double y, double z,
-				double xAux, double yAux, double zAux,
-				@NonNull RandomSource random
-		) {
+		public @NonNull Particle createParticle(SimpleParticleType options, @NonNull ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, @NonNull RandomSource random) {
 			return new SparklySparkleParticle(level, x, y, z, xAux, yAux, zAux, this.sprites);
 		}
 	}
