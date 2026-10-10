@@ -28,17 +28,18 @@ public class ExampleModParticles implements ModInitializer {
 			if (itemStack.is(Items.FIREWORK_STAR)) {
 				if (level.isClientSide()) {
 					// #region client_send_particles
-					// Determine positions (in this case, from a previous BlockPos variable - adding 0.5 to make sure it's centered)
+					// Determine positions (in this case, from a previous BlockPos variable)
+					// (Adding 0.5 to the BlockPos to make sure it's centered)
 					double x = blockPos.getX() + 0.5;
 					double y = blockPos.getY() + 0.5;
 					double z = blockPos.getZ() + 0.5;
 					// Determine velocities
 					// nextDouble() generates a number from 0 to 1 (inclusive), which we then limit to 0.15 total
-					double velocityX = level.getRandom().nextDouble() * 0.15;
-					double velocityY = level.getRandom().nextDouble() * 0.15;
-					double velocityZ = level.getRandom().nextDouble() * 0.15;
+					double velocityX = level.getRandom().nextDouble() * 0.15; // 0 - 0.15
+					double velocityY = level.getRandom().nextDouble() * 0.15; // 0 - 0.15
+					double velocityZ = level.getRandom().nextDouble() * 0.15; // 0 - 0.15
 					// Spawn our particle by passing our ParticleType
-					level.addParticle(ExampleModParticles.SPARKLE_PARTICLE, x, y, z, velocityX, velocityY, velocityZ);
+					level.addParticle(ExampleModParticles.SPARKLE_PARTICLE, x, y, z, velocityX, velocityY, velocityZ); // [!code highlight]
 					// #endregion
 				} else if (level instanceof ServerLevel serverLevel) {
 					// #region server_send_particles
@@ -55,7 +56,7 @@ public class ExampleModParticles implements ModInitializer {
 					// Determine maximum random speed used for the velocities
 					double speed = 0.15;
 					// Send our particle by passing our ParticleType
-					serverLevel.sendParticles(ExampleModParticles.SPARKLE_PARTICLE, x, y, z, count, distX, distY, distZ, speed);
+					serverLevel.sendParticles(ExampleModParticles.SPARKLE_PARTICLE, x, y, z, count, distX, distY, distZ, speed); // [!code highlight]
 					// #endregion
 				}
 			}
