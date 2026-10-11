@@ -97,7 +97,7 @@ If you type it in chat, the particle will spawn inside the player, and you'll li
 
 :::
 
-## Spawning Particles {#spawning-particles-in-code}
+## Spawning Particles in Code {#spawning-particles-in-code}
 
 What good is a particle if you can't spawn it from code?
 
